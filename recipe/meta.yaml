@@ -21,9 +21,10 @@ build:
 
 requirements:
   build:
-    - toolchain
+    - {{ compiler('c') }}
     - m4              # [unix]
     - libtool         # [unix]
+  host:
     - gmp             # [unix]
     - vc 14           # [win]
     - mpir            # [win]
