@@ -14,10 +14,8 @@ source:
   sha256: 050eb5f8c40e634d2681b5d84764b75bb103c35a7491e999d6a5b3a94b34f325          # [win]
 
 build:
-  number: 1
-  features:
-    - vc14            # [win]
-  msvc_compiler: 14.0
+  number: 2
+  skip: True   # [win and vc<14]
 
 requirements:
   build:
@@ -26,12 +24,10 @@ requirements:
     - libtool         # [unix]
   host:
     - gmp             # [unix]
-    - vc 14           # [win]
     - mpir            # [win]
   run:
     - gmp             # [unix]
     - mpir            # [win]
-    - vc 14           # [win]
 
 test:
   requires:
