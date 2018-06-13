@@ -51,6 +51,7 @@ about:
   license: LGPL 3
   license_file: {{ SRC_DIR }}/COPYING.LESSER
   summary: The MPFR library is a C library for multiple-precision floating-point computations with correct rounding.
+  doc_url: http://www.mpfr.org/mpfr-current/#doc
 
 extra:
   recipe-maintainers:
