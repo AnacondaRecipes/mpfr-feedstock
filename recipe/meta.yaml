@@ -11,7 +11,7 @@ source:
   sha256: e650f8723bfc6eca4f222c021db3d5d4cebe2e21c82498329bb9e6815b99c88c          # [unix]
   fn: {{ commit }}.zip                                                              # [win]
   url: https://github.com/BrianGladman/mpfr/archive/{{ commit }}.zip                # [win]
-  sha256: 050eb5f8c40e634d2681b5d84764b75bb103c35a7491e999d6a5b3a94b34f325          # [win]
+  sha256: 09bff24ae336d7de627dd057476fe504179a3fb9b27ecb546a60afd42b5b7a8a          # [win]
 
 build:
   number: 3
