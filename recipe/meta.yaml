@@ -17,6 +17,8 @@ build:
   skip: True  # [win and vc<14]
   run_exports:
     - {{ pin_subpackage("mpfr") }}
+  missing_dso_whitelist:
+    - $RPATH/ld64.so.1  # [linux and s390x]
 
 requirements:
   build:
