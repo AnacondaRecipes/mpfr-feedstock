@@ -20,10 +20,12 @@ build:
 
 requirements:
   build:
-    - {{ compiler('c') }}
     - libtool         # [unix]
     - m4              # [unix]
     - make            # [unix]
+    - {{ compiler('c') }}
+    - patch       # [not win]
+    - m2-patch    # [win]
   host:
     - gmp             # [unix]
     - mpir            # [win]
