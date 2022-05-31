@@ -13,17 +13,17 @@ source:
   - patches/corei5.patch
 
 build:
-  number: 1
+  number: 0
   skip: True  # [win and vc<14]
   run_exports:
     - {{ pin_subpackage("mpfr") }}
 
 requirements:
   build:
+    - {{ compiler('c') }}
     - libtool         # [unix]
     - m4              # [unix]
     - make            # [unix]
-    - {{ compiler('c') }}
   host:
     - gmp             # [unix]
     - mpir            # [win]
@@ -43,10 +43,12 @@ test:
     - test -f ${PREFIX}/lib/libmpfr${SHLIB_EXT}                # [unix]
 
 about:
-  home: http://www.mpfr.org/
-  license: LGPL-3.0-only
+  home: https://www.mpfr.org/
+  license: LGPL-3.0-or-later
   license_file: {{ SRC_DIR }}/COPYING.LESSER
   summary: The MPFR library is a C library for multiple-precision floating-point computations with correct rounding.
+  doc_url: https://mpfr.loria.fr/mpfr-current/mpfr.html
+  dev_url: https://gitlab.inria.fr/mpfr/mpfr
 
 extra:
   recipe-maintainers:
