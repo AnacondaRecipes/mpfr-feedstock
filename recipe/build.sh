@@ -1,12 +1,26 @@
 #!/bin/bash
 
-cp -r ${BUILD_PREFIX}/share/libtool/build-aux/config.* .
+# Get an updated config.sub and config.guess
+cp $BUILD_PREFIX/share/gnuconfig/config.* . || true
 
-export LD_LIBRARY_PATH=$PREFIX/lib:$LD_LIBRARY_PATH
+if [[ "$target_platform" == "win-64" ]]; then
+  export CPPFLAGS="$CPPFLAGS -DMSC_USE_DLL"
+  sed -i.bak "s@-Wl,--output-def,.libs/libmpfr-6.dll.def@@g" configure
+  sed -i.bak "s@ -version-info [0-9\:]\+@ -avoid-version@g" src/Makefile.in
+fi
 
 ./configure --prefix=$PREFIX \
             --with-gmp=$PREFIX \
             --enable-static
-make
+
+[[ "$target_platform" == "win-64" ]] && patch_libtool
+
+make -j${CPU_COUNT}
+  
 make check
+
 make install
+
+if [[ "$target_platform" == "win-64" ]]; then
+  cp $PREFIX/bin/mpfr.dll $PREFIX/bin/mpfr-6.dll
+fi
