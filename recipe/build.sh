@@ -1,12 +1,23 @@
 #!/bin/bash
 
-cp -r ${BUILD_PREFIX}/share/libtool/build-aux/config.* .
+# Get an updated config.sub and config.guess
+cp $BUILD_PREFIX/share/gnuconfig/config.* . || true
 
-export LD_LIBRARY_PATH=$PREFIX/lib:$LD_LIBRARY_PATH
+if [[ "$target_platform" == "win-64" ]]; then
+  export PREFIX=${PREFIX}/Library
+fi
 
 ./configure --prefix=$PREFIX \
             --with-gmp=$PREFIX \
-            --enable-static
-make
-make check
+            --disable-static \
+            --enable-thread-safe
+
+make -j${CPU_COUNT}
+if [[ "$CONDA_BUILD_CROSS_COMPILATION" != 1 && "${CROSSCOMPILING_EMULATOR}" == "" ]]; then
+  make check
+fi
 make install
+
+if [[ "$target_platform" == "win-64" ]]; then
+  cp ${PREFIX}/lib/libmpfr.dll.a ${PREFIX}/lib/mpfr.lib
+fi
