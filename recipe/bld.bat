@@ -1,15 +1,15 @@
-echo source %SYS_PREFIX:\=/%/etc/profile.d/conda.sh    > conda_build.sh
-echo conda activate "${PREFIX}"                       >> conda_build.sh
-echo conda activate --stack "${BUILD_PREFIX}"         >> conda_build.sh
-echo CONDA_PREFIX=${CONDA_PREFIX//\\//}               >> conda_build.sh
-type "%RECIPE_DIR%\build.sh"                          >> conda_build.sh
+xcopy /s %RECIPE_DIR%\win_build\* .
 
-set PREFIX=%PREFIX:\=/%
-set BUILD_PREFIX=%BUILD_PREFIX:\=/%
-set CONDA_PREFIX=%CONDA_PREFIX:\=/%
-set SRC_DIR=%SRC_DIR:\=/%
-set MSYSTEM=UCRT64
-set MSYS2_PATH_TYPE=inherit
-set CHERE_INVOKING=1
-bash -lc "./conda_build.sh"
-if errorlevel 1 exit 1
+mkdir build
+cd build
+
+cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=%PREFIX%/Library -DRUN_TESTS=ON ..
+cmake --build .
+cmake --install .
+
+:: All just import libs under different names for backwards compatibility.
+copy %LIBRARY_BIN%\libmpfr-%LIB_MAJOR_VERSION%.dll %LIBRARY_BIN%\libmpfr.dll
+copy %LIBRARY_BIN%\libmpfr-%LIB_MAJOR_VERSION%.dll %LIBRARY_BIN%\mpfr.dll
+copy %LIBRARY_LIB%\libmpfr-%LIB_MAJOR_VERSION%.lib %LIBRARY_LIB%\mpfr.lib
+copy %LIBRARY_LIB%\libmpfr-%LIB_MAJOR_VERSION%.lib %LIBRARY_LIB%\libmpfr.lib
+copy %LIBRARY_LIB%\libmpfr-%LIB_MAJOR_VERSION%.lib %LIBRARY_LIB%\libmpfr.dll.a
