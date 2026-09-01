@@ -1,17 +1,18 @@
 {% set version = "4.2.1" %}
+{% set name = "mpfr" %}
 {% set lib_major_version = "6" %}
 
 package:
-  name: mpfr
+  name: {{ name }}
   version: {{ version }}
 
 source:
-  fn: mpfr-{{ version }}.tar.bz2
-  url: https://ftp.gnu.org/gnu/mpfr/mpfr-{{ version }}.tar.gz
+  fn: {{ name }}-{{ version }}.tar.bz2
+  url: https://ftp.gnu.org/gnu/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: 116715552bd966c85b417c424db1bbdf639f53836eb361549d1f8d6ded5cb4c6
 
 build:
-  number: 0
+  number: 1
   run_exports:
     - {{ pin_subpackage("mpfr") }}
   missing_dso_whitelist:
@@ -23,6 +24,7 @@ build:
 
 requirements:
   build:
+    - {{ stdlib('c') }}
     - {{ compiler('c') }}
     - libtool         # [unix]
     - m4              # [unix]
@@ -33,6 +35,7 @@ requirements:
 
 test:
   requires:
+    - {{ stdlib('c') }}
     - {{ compiler('c') }}
     - libtool         # [unix]
     - m4              # [unix]
